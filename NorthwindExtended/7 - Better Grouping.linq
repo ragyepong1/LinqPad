@@ -7,14 +7,19 @@
   </Connection>
 </Query>
 
-// Get the order totals and basic customer information for each order
+// Get the total amount from all orders grouped by customer
+
 from row in Orders
+group row by new {row.Customer.CompanyName, row.Customer.ContactName}
+					into customerOrders
+// orderby row.Customer.CompanyName
 select new
 // Initialization List - Google this
 {
-	Company = row.Customer.CompanyName,
-	Contact = row.Customer.ContactName,
-	OrderTotal = (from item in row.OrderDetails
+	Customer= customerOrders.Key.CompanyName,
+	Customer= customerOrders.Key.ContactName,
+	OrderTotal = (from order in row.customerOrders
+					from item in order.OrderDetails
 				select item.UnitPrice * item.Quantity).Sum(),
 	Items = from item in row.OrderDetails
 			select new
