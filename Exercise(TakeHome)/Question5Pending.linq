@@ -7,15 +7,17 @@
   </Connection>
 </Query>
 
-from row in Shifts
-orderby row.DayOfWeek ascending
+from data in Shifts
+group data by data.DayOfWeek
+into day
+
 select new{
-	DayOfWeek = (row.DayOfWeek == 0 ? "Sun" :
-					row.DayOfWeek == 1 ? "Mon" :
-					row.DayOfWeek == 2 ? "Tue" :
-					row.DayOfWeek == 3 ? "Wed" :
-					row.DayOfWeek == 4 ? "Thu" :
-					row.DayOfWeek == 5 ? "Fri" :
+	DayOfWeek = (day.Key == 0 ? "Sun" :
+					day.Key == 1 ? "Mon" :
+					day.Key == 2 ? "Tue" :
+					day.Key == 3 ? "Wed" :
+					day.Key == 4 ? "Thu" :
+					day.Key == 5 ? "Fri" :
 					"Sat"),
-	EmployeesNeeded = row.NumberOfEmployees
+	EmployeesNeeded = day.Sum(needed => needed.NumberOfEmployees)
 }
