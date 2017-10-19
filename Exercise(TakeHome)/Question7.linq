@@ -7,7 +7,12 @@
   </Connection>
 </Query>
 
-from data in Employees
-where data.Schedules.Count(x => x.Day.Month == 11) == 0
-orderby data.LastName, data.FirstName
-select data.LastName + ", " + data.FirstName
+//from data in Employees
+//where data.Schedules.Count(x => x.Day.Month == 11) == 0
+//orderby data.LastName, data.FirstName
+//select data.LastName + ", " + data.FirstName
+
+from x in Employees
+orderby x.LastName, x.FirstName
+where !x.Schedules.Any(row => row.Day.Month == 11)
+select x.LastName + ", " + x.FirstName
