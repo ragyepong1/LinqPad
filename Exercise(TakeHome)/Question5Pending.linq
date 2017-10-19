@@ -1,6 +1,6 @@
 <Query Kind="Expression">
   <Connection>
-    <ID>fceab41f-2719-48fd-9435-4e2381aeaff6</ID>
+    <ID>bc76ba4d-9f6e-4d67-b0dc-411d43c86c92</ID>
     <Persist>true</Persist>
     <Server>.</Server>
     <Database>WorkSchedule</Database>
@@ -8,6 +8,7 @@
 </Query>
 
 from data in Shifts
+where data.PlacementContract.PlacementContractID == 3
 group data by data.DayOfWeek
 into day
 
